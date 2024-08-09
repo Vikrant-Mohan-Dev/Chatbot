@@ -1,7 +1,40 @@
 'use client'
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField, createTheme, ThemeProvider } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
+import CssBaseline from '@mui/material/CssBaseline';
+
+const theme = createTheme({
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'black',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'black',
+          },
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'black',
+          },
+          '& .MuiInputBase-input': {
+            color: 'black', // Text color
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            backgroundColor: '#333',
+          },
+        },
+      },
+    },
+  },
+});
 
 export default function Home() {
   const [messages, setMessages] = useState([
@@ -53,29 +86,11 @@ export default function Home() {
   }
   
   return (
-  <Box 
-  width="100vw" 
-  height="100vh"
-  display="flex" 
-  flexDirection="column" 
-  justifyContent="center"
-  >
+    <ThemeProvider theme={theme}>
+  <Box className="w-full h-screen flex justify-center items-center">
     <Stack
-    direction="column"
-    width = "600px"
-    height = "700px"
-    border = "1px solid black"
-    p={2}
-    spacing={3}
-    >
-      <Stack 
-      direction="column"
-      spacing={2}
-      flexGrow={1}
-      overflow="auto"
-      maxHeight="100%"
-      >
-  
+    className="flex flex-col w-[50%] h-[80%] border-2 border-black rounded-xl p-2 space-y-3 justify-between bg-[#F8F8FF]">
+      <Stack className="flex flex-col space-x-2 space-y-2 flex-grow-1 overflow-auto max-h-screen">
         {messages.map((messages, index)  =>  (
             <Box
             key = {index}
@@ -96,18 +111,18 @@ export default function Home() {
             </Box>
           ))}
       </Stack>
-      <Stack
-      direction="row"
-      spacing={2}
-      >
+      <Stack className="flex flex-row space-x-2">
         <TextField
-        label = "message"
+        className="text-black"
+        label = "Message CoGPT"
         fullWidth
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        InputLabelProps={{style: {color: 'black'}}}
         />
-        <Button variant="contained" onClick={sendMessage}>Send</Button>
+        <Button className="rounded-md bg-black" variant="contained" onClick={sendMessage}>Send</Button>
       </Stack>
     </Stack>
   </Box>
+  </ThemeProvider>
 )}
